@@ -9,7 +9,7 @@ public class SpaceCadet1P1 {
    */
   public static void main (String[] args) throws IOException {
     BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-    String email = "", id = "";
+    String email = "", id;
 
     //Get email from user and validate
     do {
