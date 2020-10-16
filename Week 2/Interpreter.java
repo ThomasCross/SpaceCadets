@@ -43,7 +43,7 @@ public class Interpreter {
           identifier = line.replaceAll("^decr ([A-Z]+);$", "$1");
           basic(identifier, -1, variables);
 
-        } else if (line.matches("^while ([A-Z]+) not ([0-9]+) do;$")) {
+        } else if (line.matches("^while ([A-Za-z]+) not ([0-9]+) do;$")) {
           if (checkWhile(line, variables)) { //Checks if variable meets condition
             //Meets condition: Iterated through lines until it find the next end instruction
             do {
@@ -221,10 +221,10 @@ public class Interpreter {
    */
   private boolean checkWhile(String line, Map<String, Integer> variables) {
     //Gets the identifier of the variable
-    int ident = variables.get(line.replaceAll("^while ([A-Z]+) not ([0-9]+) do;$", "$1"));
+    int ident = variables.get(line.replaceAll("^while ([A-Za-z]+) not ([0-9]+) do;$", "$1"));
 
     //Gets the value the variable needs to meet
-    int value = Integer.parseInt(line.replaceAll("^while ([A-Z]+) not ([0-9]+) do;$", "$2"));
+    int value = Integer.parseInt(line.replaceAll("^while ([A-Za-z]+) not ([0-9]+) do;$", "$2"));
 
     return ident == value;
   }
