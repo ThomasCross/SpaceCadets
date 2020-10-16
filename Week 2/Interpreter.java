@@ -31,16 +31,16 @@ public class Interpreter {
         String line = program.get(programCounter).trim();
         String identifier;
 
-        if (line.matches("^clear ([A-Z]+);$")) {
-          identifier = line.replaceAll("^clear ([A-Z]+);$", "$1");
+        if (line.matches("^clear ([A-Za-z]+);$")) {
+          identifier = line.replaceAll("^clear ([A-Za-z]+);$", "$1");
           basic(identifier, 0, variables);
 
-        } else if (line.matches("^incr ([A-Z]+);$")) {
-          identifier = line.replaceAll("^incr ([A-Z]+);$", "$1");
+        } else if (line.matches("^incr ([A-Za-z]+);$")) {
+          identifier = line.replaceAll("^incr ([A-Za-z]+);$", "$1");
           basic(identifier, 1, variables);
 
-        } else if (line.matches("^decr ([A-Z]+);$")) {
-          identifier = line.replaceAll("^decr ([A-Z]+);$", "$1");
+        } else if (line.matches("^decr ([A-Za-z]+);$")) {
+          identifier = line.replaceAll("^decr ([A-Za-z]+);$", "$1");
           basic(identifier, -1, variables);
 
         } else if (line.matches("^while ([A-Za-z]+) not ([0-9]+) do;$")) {
