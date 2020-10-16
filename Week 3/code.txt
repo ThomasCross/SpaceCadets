@@ -1,4 +1,4 @@
-// This program does shit.
+// This program does stuff.
 clear X;
 incr X 1;
 incr X 1;
