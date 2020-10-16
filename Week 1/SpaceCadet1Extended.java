@@ -17,7 +17,7 @@ public class SpaceCadet1P2 {
    */
   public static void main (String[] args) throws IOException, InterruptedException {
     BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-    String email = "", id = "";
+    String email = "", id;
 
     //Get email from user and validate
     do {
@@ -37,7 +37,7 @@ public class SpaceCadet1P2 {
     loginParam.put("ecslogin_username", reader.readLine());
 
     System.out.print("Password > ");
-    loginParam.put("ecslogin_password", reader.readLine());
+    loginParam.put("ecslogin_password", System.console().readPassword());
     reader.close();
 
     //Build login data
@@ -50,9 +50,10 @@ public class SpaceCadet1P2 {
       loginBuilder.append(URLEncoder.encode(entry.getValue().toString(), StandardCharsets.UTF_8));
     }
 
+    //Create Client
     HttpClient client = HttpClient.newBuilder().version(HttpClient.Version.HTTP_2).build();
 
-    //Send POST Request
+    //Create and Send POST Request
     HttpRequest login = HttpRequest.newBuilder()
         .POST(HttpRequest.BodyPublishers.ofString(loginBuilder.toString()))
         .uri(URI.create("https://secure.ecs.soton.ac.uk/login/now/index.php"))
@@ -62,34 +63,46 @@ public class SpaceCadet1P2 {
 
     HttpResponse<String> response = client.send(login, HttpResponse.BodyHandlers.ofString());
     List<String> cookies = response.headers().allValues("set-cookie");
+    String sentCookie = "";
 
-    //Get Data
+    for(String cookie : cookies){
+      if (cookie.contains("ecs_intra_session=")){
+        sentCookie = cookie;
+        break;
+      }
+    }
+    if (sentCookie.equals("")){
+      System.out.println("Invalid login.");
+      System.exit(0);
+    }
+
+    //Create and Get Data
     HttpRequest data = HttpRequest.newBuilder()
         .GET()
         .uri(URI.create("https://secure.ecs.soton.ac.uk/people/"+id))
         .setHeader("User-Agent", "Java HttpClient Bot")
-        .setHeader("Cookie", cookies.get(0))
+        .setHeader("Cookie", sentCookie)
         .build();
 
     String[] responseData = client.send(data, HttpResponse.BodyHandlers.ofString()).body().split("\\n");
     String lineData = "";
 
-    //Get Data
-    //System.out.println(responseData);
-
-    System.out.println("ID: "+ id);
-    System.out.println("Email: "+ email);
-
+    //Searches for line containing data inside the HTML
     for (String line: responseData){
       if (line.contains("<h1 class=\"withIntro\"><span id=\"name\" class=\"editable_text\"><span itemprop='name'>")){
         lineData = line;
         break;
       }
+      if (line.contains("<p>This page either does not exist or you are not able to view it.</p>")){
+        System.out.println("This user does not exist, or you are unable to access it with your permissions.");
+        System.exit(0);
+      }
     }
 
+    //Output Data
+    System.out.println("ID: "+ id);
+    System.out.println("Email: "+ email);
     System.out.println("Name: " + lineData.replaceAll("^.*<span itemprop='name'>([A-z\\s]+)</span.*$", "$1"));
     System.out.println("Position: "+ lineData.replaceAll("^.*<span class='role'>([A-z0-9\\s]+)</span>([A-z0-9\\s]+)<br/><strong>.*$", "$1$2"));
-
-
   }
 }
