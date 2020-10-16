@@ -1,6 +1,4 @@
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.*;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -16,7 +14,6 @@ public class SpaceCadet1Extended {
    * On the secure.ecs part of the intranet.
    */
   public static void main(String[] args) throws IOException, InterruptedException {
-    BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
     String email = "", id;
 
     //Get email from user and validate
@@ -37,7 +34,6 @@ public class SpaceCadet1Extended {
 
     temp = new String(System.console().readPassword("Password > "));
     loginParam.put("ecslogin_password", temp);
-    reader.close();
 
     //Build login data
     var loginBuilder = new StringBuilder();
