@@ -3,8 +3,8 @@ This program is an extended interpreter for the bare bones language, written for
 
 ## Notes
 - This intpreter ignores indentation, so it can be used for ease of readability.
-- All variables are initalised with a value of 0 and can be intalised with any command except while.
-- Variables can be any length but must be in CAPITALS and only contain letters. (ie, X, Y, Z, ABC)
+- All variables are initalised with a value of 0 and can be intalised with any command.
+- Variables can be any length but must only contain letters. (ie, X, Y, Z, Abc, abC)
 
 ## Comments
     // This is a comment
@@ -28,12 +28,10 @@ Comments can only contain letters, numbers and a fullstop. Shown by this regex `
 `incr X Y;` 2 variable
 
 ## While Loop
-    //Y is used as a variable, 1 is where an integer can be used.
-    while Y not 1 do;
+    //Y is used as a variable, X can be a variable or integer.
+    while Y not X do;
       ...
     end;
-
-**Do not use this to intalise a variable**
 
 This can be used to loop thougth code.
 
