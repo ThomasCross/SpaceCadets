@@ -24,8 +24,7 @@ public class SpaceCadet1Extended {
       if (!email.equals("")) {
         System.out.println("Invalid Soton Email address");
       }
-      System.out.print("Enter Soton Email Address > ");
-      email = reader.readLine();
+      email = System.console().readLine("Enter Soton Email Address > ");
     } while (!email.matches("^([a-zA-Z0-9]+)(@soton.ac.uk|@ecs.soton.ac.uk)$"));
 
     //Split id from domain
@@ -33,11 +32,11 @@ public class SpaceCadet1Extended {
 
     // Get login data
     Map<Object, Object> loginParam = new HashMap<>();
-    System.out.print("Login > ");
-    loginParam.put("ecslogin_username", reader.readLine());
+    String temp = System.console().readLine("Login > ");
+    loginParam.put("ecslogin_username", temp);
 
-    System.out.print("Password > ");
-    loginParam.put("ecslogin_password", System.console().readPassword());
+    temp = new String(System.console().readPassword("Password > "));
+    loginParam.put("ecslogin_password", temp);
     reader.close();
 
     //Build login data
@@ -66,11 +65,14 @@ public class SpaceCadet1Extended {
     String sentCookie = "";
 
     for(String cookie : cookies){
-      if (cookie.contains("ecs_intra_session=")){
+      if (cookie.contains("ecs_intra_session")){
         sentCookie = cookie;
         break;
+      }else{
+        System.out.println(cookie);
       }
     }
+
     if (sentCookie.equals("")){
       System.out.println("Invalid login.");
       System.exit(0);
@@ -100,9 +102,10 @@ public class SpaceCadet1Extended {
     }
 
     //Output Data
+    System.out.println(" - - - - - Data - - - - - ");
     System.out.println("ID: "+ id);
     System.out.println("Email: "+ email);
     System.out.println("Name: " + lineData.replaceAll("^.*<span itemprop='name'>([A-z\\s]+)</span.*$", "$1"));
-    System.out.println("Position: "+ lineData.replaceAll("^.*<span class='role'>([A-z0-9\\s]+)</span>([A-z0-9\\s]+)<br/><strong>.*$", "$1$2"));
+    System.out.println("Position: "+ lineData.replaceAll("^.*(<span class='role'>([A-z0-9\\s]+)</span>([A-z0-9\\s]+)<br/><strong>|<span class='role'>(Staff)</span>).*$", "$2$3$4"));
   }
 }
