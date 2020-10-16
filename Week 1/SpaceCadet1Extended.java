@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SpaceCadet1P2 {
+public class SpaceCadet1Extended {
   /**
    * Finds the name of someone from their email address using their email id.
    * On the secure.ecs part of the intranet.
