@@ -15,7 +15,7 @@ public class SpaceCadet1Extended {
    * Finds the name of someone from their email address using their email id.
    * On the secure.ecs part of the intranet.
    */
-  public static void main (String[] args) throws IOException, InterruptedException {
+  public static void main(String[] args) throws IOException, InterruptedException {
     BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
     String email = "", id;
 
@@ -42,7 +42,7 @@ public class SpaceCadet1Extended {
     //Build login data
     var loginBuilder = new StringBuilder();
     for (Map.Entry<Object, Object> entry : loginParam.entrySet()) {
-      if(loginBuilder.length() > 0) loginBuilder.append("&");
+      if (loginBuilder.length() > 0) loginBuilder.append("&");
 
       loginBuilder.append(URLEncoder.encode(entry.getKey().toString(), StandardCharsets.UTF_8));
       loginBuilder.append("=");
@@ -64,16 +64,16 @@ public class SpaceCadet1Extended {
     List<String> cookies = response.headers().allValues("set-cookie");
     String sentCookie = "";
 
-    for(String cookie : cookies){
-      if (cookie.contains("ecs_intra_session")){
+    for (String cookie : cookies) {
+      if (cookie.contains("ecs_intra_session")) {
         sentCookie = cookie;
         break;
-      }else{
+      } else {
         System.out.println(cookie);
       }
     }
 
-    if (sentCookie.equals("")){
+    if (sentCookie.equals("")) {
       System.out.println("Invalid login.");
       System.exit(0);
     }
@@ -81,7 +81,7 @@ public class SpaceCadet1Extended {
     //Create and Get Data
     HttpRequest data = HttpRequest.newBuilder()
         .GET()
-        .uri(URI.create("https://secure.ecs.soton.ac.uk/people/"+id))
+        .uri(URI.create("https://secure.ecs.soton.ac.uk/people/" + id))
         .setHeader("User-Agent", "Java HttpClient Bot")
         .setHeader("Cookie", sentCookie)
         .build();
@@ -90,12 +90,12 @@ public class SpaceCadet1Extended {
     String lineData = "";
 
     //Searches for line containing data inside the HTML
-    for (String line: responseData){
-      if (line.contains("<h1 class=\"withIntro\"><span id=\"name\" class=\"editable_text\"><span itemprop='name'>")){
+    for (String line : responseData) {
+      if (line.contains("<h1 class=\"withIntro\"><span id=\"name\" class=\"editable_text\"><span itemprop='name'>")) {
         lineData = line;
         break;
       }
-      if (line.contains("<p>This page either does not exist or you are not able to view it.</p>")){
+      if (line.contains("<p>This page either does not exist or you are not able to view it.</p>")) {
         System.out.println("This user does not exist, or you are unable to access it with your permissions.");
         System.exit(0);
       }
@@ -103,9 +103,9 @@ public class SpaceCadet1Extended {
 
     //Output Data
     System.out.println(" - - - - - Data - - - - - ");
-    System.out.println("ID: "+ id);
-    System.out.println("Email: "+ email);
+    System.out.println("ID: " + id);
+    System.out.println("Email: " + email);
     System.out.println("Name: " + lineData.replaceAll("^.*<span itemprop='name'>([A-z\\s]+)</span.*$", "$1"));
-    System.out.println("Position: "+ lineData.replaceAll("^.*(<span class='role'>([A-z0-9\\s]+)</span>([A-z0-9\\s]+)<br/><strong>|<span class='role'>(Staff)</span>).*$", "$2$3$4"));
+    System.out.println("Position: " + lineData.replaceAll("^.*(<span class='role'>([A-z0-9\\s]+)</span>([A-z0-9\\s]+)<br/><strong>|<span class='role'>(Staff)</span>).*$", "$2$3$4"));
   }
 }
