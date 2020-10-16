@@ -33,36 +33,36 @@ public class Interpreter {
         String line = program.get(programCounter).trim();
         String identifier, modifier, operation;
 
-        if (line.matches("^clear ([A-Z]+);$")) {
-          identifier = line.replaceAll("^clear ([A-Z]+);$", "$1");
+        if (line.matches("^clear ([A-Za-z]+);$")) {
+          identifier = line.replaceAll("^clear ([A-Za-z]+);$", "$1");
           basic(identifier, "0", 0, variables);
 
-        } else if (line.matches("^incr ([A-Z]+) ([A-Z0-9]+);$")) {
-          identifier = line.replaceAll("^incr ([A-Z]+) ([A-Z0-9]+);$", "$1");
-          modifier = line.replaceAll("^incr ([A-Z]+) ([A-Z0-9]+);$", "$2");
+        } else if (line.matches("^incr ([A-Za-z]+) ([A-Za-z0-9]+);$")) {
+          identifier = line.replaceAll("^incr ([A-Za-z]+) ([A-Za-z0-9]+);$", "$1");
+          modifier = line.replaceAll("^incr ([A-Za-z]+) ([A-Za-z0-9]+);$", "$2");
           basic(identifier, modifier, 1, variables);
 
-        } else if (line.matches("^decr ([A-Z]+) ([A-Z0-9]+);$")) {
-          identifier = line.replaceAll("^decr ([A-Z]+) ([A-Z0-9]+);$", "$1");
-          modifier = line.replaceAll("^decr ([A-Z]+) ([A-Z0-9]+);$", "$2");
+        } else if (line.matches("^decr ([A-Za-z]+) ([A-Za-z0-9]+);$")) {
+          identifier = line.replaceAll("^decr ([A-Za-z]+) ([A-Za-z0-9]+);$", "$1");
+          modifier = line.replaceAll("^decr ([A-Za-z]+) ([A-Za-z0-9]+);$", "$2");
           basic(identifier, modifier, 2, variables);
 
-        } else if (line.matches("^mult ([A-Z]+) ([A-Z0-9]+);$")) {
-          identifier = line.replaceAll("^mult ([A-Z]+) ([A-Z0-9]+);$", "$1");
-          modifier = line.replaceAll("^mult ([A-Z]+) ([A-Z0-9]+);$", "$2");
+        } else if (line.matches("^mult ([A-Za-z]+) ([A-Za-z0-9]+);$")) {
+          identifier = line.replaceAll("^mult ([A-Za-z]+) ([A-Za-z0-9]+);$", "$1");
+          modifier = line.replaceAll("^mult ([A-Za-z]+) ([A-Za-z0-9]+);$", "$2");
           basic(identifier, modifier, 3, variables);
 
-        } else if (line.matches("^div ([A-Z]+) ([A-Z0-9]+);$")) {
-          identifier = line.replaceAll("^div ([A-Z]+) ([A-Z0-9]+);$", "$1");
-          modifier = line.replaceAll("^div ([A-Z]+) ([A-Z0-9]+);$", "$2");
+        } else if (line.matches("^div ([A-Za-z]+) ([A-Za-z0-9]+);$")) {
+          identifier = line.replaceAll("^div ([A-Za-z]+) ([A-Za-z0-9]+);$", "$1");
+          modifier = line.replaceAll("^div ([A-Za-z]+) ([A-Za-z0-9]+);$", "$2");
           basic(identifier, modifier, 4, variables);
 
-        } else if (line.matches("^mod ([A-Z]+) ([A-Z0-9]+);$")) {
-          identifier = line.replaceAll("^mod ([A-Z]+) ([A-Z0-9]+);$", "$1");
-          modifier = line.replaceAll("^mod ([A-Z]+) ([A-Z0-9]+);$", "$2");
+        } else if (line.matches("^mod ([A-Za-z]+) ([A-Za-z0-9]+);$")) {
+          identifier = line.replaceAll("^mod ([A-Za-z]+) ([A-Za-z0-9]+);$", "$1");
+          modifier = line.replaceAll("^mod ([A-Za-z]+) ([A-Za-z0-9]+);$", "$2");
           basic(identifier, modifier, 5, variables);
 
-        } else if (line.matches("^while ([A-Z]+) not ([0-9]+) do;$")) {
+        } else if (line.matches("^while ([A-Za-z]+) not ([A-Za-z0-9]+) do;$")) {
           if (checkWhile(line, variables)) { //Checks if variable meets condition
             //Meets condition: Iterated through lines until it find the next end instruction
             do {
@@ -81,10 +81,10 @@ public class Interpreter {
             //Fails condition: sets programCounter to address of start of loop
             programCounter = LoopStack.peek();
           }
-        } else if (line.matches("^if ([A-Z0-9]+) (==|!=|>|<|>=|<=) ([A-Z0-9]+);$")) {
-          identifier = line.replaceAll("^if ([A-Z0-9]+) (==|!=|>|<|>=|<=) ([A-Z0-9]+);$", "$1");
-          operation = line.replaceAll("^if ([A-Z0-9]+) (==|!=|>|<|>=|<=) ([A-Z0-9]+);$", "$2");
-          modifier = line.replaceAll("^if ([A-Z0-9]+) (==|!=|>|<|>=|<=) ([A-Z0-9]+);$", "$3");
+        } else if (line.matches("^if ([A-Za-z0-9]+) (==|!=|>|<|>=|<=) ([A-Za-z0-9]+);$")) {
+          identifier = line.replaceAll("^if ([A-Za-z0-9]+) (==|!=|>|<|>=|<=) ([A-Za-z0-9]+);$", "$1");
+          operation = line.replaceAll("^if ([A-Za-z0-9]+) (==|!=|>|<|>=|<=) ([A-Za-z0-9]+);$", "$2");
+          modifier = line.replaceAll("^if ([A-Za-z0-9]+) (==|!=|>|<|>=|<=) ([A-Za-z0-9]+);$", "$3");
 
           if (ifstate(identifier, operation, modifier, variables)) {
             //Condition true: sets skip state and continues through program
@@ -94,17 +94,17 @@ public class Interpreter {
             IfStack.push(false);
             programCounter = ifskip(programCounter, line, program, false);
           }
-        } else if (line.matches("^else if ([A-Z0-9]+) (==|!=|>|<|>=|<=) ([A-Z0-9]+);$")) {
+        } else if (line.matches("^else if ([A-Za-z0-9]+) (==|!=|>|<|>=|<=) ([A-Za-z0-9]+);$")) {
           //Checks if a previous section of the if statement was run
-          if (IfStack.peek()){
+          if (IfStack.peek()) {
             //Skips to endif
             programCounter = ifskip(programCounter, line, program, true);
           } else {
-            identifier = line.replaceAll("^else if ([A-Z0-9]+) (==|!=|>|<|>=|<=) ([A-Z0-9]+);$", "$1");
-            operation = line.replaceAll("^else if ([A-Z0-9]+) (==|!=|>|<|>=|<=) ([A-Z0-9]+);$", "$2");
-            modifier = line.replaceAll("^else if ([A-Z0-9]+) (==|!=|>|<|>=|<=) ([A-Z0-9]+);$", "$3");
+            identifier = line.replaceAll("^else if ([A-Za-z0-9]+) (==|!=|>|<|>=|<=) ([A-Za-z0-9]+);$", "$1");
+            operation = line.replaceAll("^else if ([A-Za-z0-9]+) (==|!=|>|<|>=|<=) ([A-Za-z0-9]+);$", "$2");
+            modifier = line.replaceAll("^else if ([A-Za-z0-9]+) (==|!=|>|<|>=|<=) ([A-Za-z0-9]+);$", "$3");
 
-            if (ifstate(identifier, operation, modifier, variables)){
+            if (ifstate(identifier, operation, modifier, variables)) {
               //Condition true: sets skip state and continues through program
               IfStack.pop();
               IfStack.push(true);
@@ -115,7 +115,7 @@ public class Interpreter {
           }
         } else if (line.matches("^else;$")) {
           //Checks if a previous section of the if statement was run
-          if (IfStack.peek()){
+          if (IfStack.peek()) {
             //skips to endif
             programCounter = ifskip(programCounter, line, program, true);
           }
@@ -275,7 +275,7 @@ public class Interpreter {
     int modifier;
 
     checkVariable(identifier, variables);
-    if (value.matches("[A-Z]+")) {
+    if (value.matches("[A-Za-z]+")) {
       checkVariable(value, variables);
       modifier = variables.get(value);
     } else {
@@ -296,17 +296,17 @@ public class Interpreter {
    * This method will take the if statement's values and operator and determine if it is true or false.
    *
    * @param identifier first value in if statement
-   * @param operator operator in if statement
-   * @param modifier second value in if statement
-   * @param variables Dictionary of variables
+   * @param operator   operator in if statement
+   * @param modifier   second value in if statement
+   * @param variables  Dictionary of variables
    * @return True or false, depending if the condition is true or false
    */
-  private Boolean ifstate(String identifier, String operator, String modifier, Map<String, Integer> variables){
+  private Boolean ifstate(String identifier, String operator, String modifier, Map<String, Integer> variables) {
     int a, b;
     boolean condition;
 
     //Gets the value for the first value
-    if (identifier.matches("[A-Z]+")) {
+    if (identifier.matches("[A-Za-z]+")) {
       checkVariable(identifier, variables);
       a = variables.get(identifier);
     } else {
@@ -314,7 +314,7 @@ public class Interpreter {
     }
 
     //Gets the value for the second value
-    if (modifier.matches("[A-Z]+")) {
+    if (modifier.matches("[A-Za-z]+")) {
       checkVariable(modifier, variables);
       b = variables.get(modifier);
     } else {
@@ -338,9 +338,9 @@ public class Interpreter {
    * This program is used to skip througth the code to the next section of the if or endif.
    *
    * @param programCounter This stores the current instruction address
-   * @param line This stored the line from the program currently being operated on
-   * @param program This stores the program
-   * @param position This determines how far it skips. true to endif and false to next section
+   * @param line           This stored the line from the program currently being operated on
+   * @param program        This stores the program
+   * @param position       This determines how far it skips. true to endif and false to next section
    * @return This will return the new programCounter position
    */
   private int ifskip(int programCounter, String line, List<String> program, boolean position) {
@@ -354,24 +354,24 @@ public class Interpreter {
       line = program.get(programCounter);
 
       //Checks if ifdepth needs to increase
-      if (line.matches("^if ([A-Z0-9]+) (==|!=|>|<|>=|<=) ([A-Z0-9]+);$")){
+      if (line.matches("^if ([A-Za-z0-9]+) (==|!=|>|<|>=|<=) ([A-Za-z0-9]+);$")) {
         ifdepth += 1;
       }
 
       //Checks if ifdepth needs to decrease
-      if (line.matches("^endif;$") && ifdepth > 0){
+      if (line.matches("^endif;$") && ifdepth > 0) {
         ifdepth -= 1;
       }
 
       //Determines which check is run depending on the skip setting
-      if (position){
+      if (position) {
         //Go to endif
-        if (line.matches("^endif;$") && ifdepth == 0){
+        if (line.matches("^endif;$") && ifdepth == 0) {
           flag = false;
         }
       } else {
         //Go to next section
-        if (line.matches("(^else if ([A-Z0-9]+) (==|!=) ([A-Z0-9]+);$)|(^else;$)|(^endif;$)") && ifdepth == 0){
+        if (line.matches("(^else if ([A-Za-z0-9]+) (==|!=) ([A-Za-z0-9]+);$)|(^else;$)|(^endif;$)") && ifdepth == 0) {
           flag = false;
         }
       }
@@ -388,12 +388,24 @@ public class Interpreter {
    */
   private boolean checkWhile(String line, Map<String, Integer> variables) {
     //Gets the identifier of the variable
-    int ident = variables.get(line.replaceAll("^while ([A-Z]+) not ([0-9]+) do;$", "$1"));
+    String ident = line.replaceAll("^while ([A-Za-z]+) not ([0-9]+) do;$", "$1");
+    int identInt;
+    checkVariable(ident, variables);
+    identInt = variables.get(ident);
 
     //Gets the value the variable needs to meet
-    int value = Integer.parseInt(line.replaceAll("^while ([A-Z]+) not ([0-9]+) do;$", "$2"));
+    String value = line.replaceAll("^while ([A-Za-z]+) not ([0-9]+) do;$", "$2");
+    int valueInt;
 
-    return ident == value;
+    //Gets the value for the condition
+    if (value.matches("[A-Za-z]+")) {
+      checkVariable(value, variables);
+      valueInt = variables.get(value);
+    } else {
+      valueInt = Integer.parseInt(value);
+    }
+
+    return identInt == valueInt;
   }
 
   /**
