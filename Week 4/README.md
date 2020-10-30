@@ -52,3 +52,15 @@ Port and Encrypt arguments required.
     /msg /m <name> <message> (To send a private message)
     /users /u (Get a list of active users)
     /kick /k <name> <message> (To kick a user)
+    
+### Files
+(Note, "//" can be used as a comment in any file and won't be displayed)
+
+**Banner**
+Just enter test into the file, and it will be printed out. View example files to see an example banner.
+
+**Logging**
+This fill will be automatically created or appended to.
+
+**Filter**
+Enter one filtered word per line, words including spaces are invalid.
