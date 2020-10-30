@@ -192,7 +192,7 @@ public class Server {
       trustManagerFactory.init(keyStore);
 
       // Creates SSLSocketFactories with a secure socket protocol
-      SSLContext sslContext = SSLContext.getInstance("TLS");
+      SSLContext sslContext = SSLContext.getInstance("TLSv1.2");
       TrustManager[] trustManagers = trustManagerFactory.getTrustManagers();
       sslContext.init(keyManagerFactory.getKeyManagers(), trustManagers, null);
 

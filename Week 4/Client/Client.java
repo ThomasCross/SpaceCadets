@@ -28,7 +28,7 @@ public class Client {
           "- - - Help - - -\n"
               + "    java BaseClient <host> <port> <jks file> <jks password>\n"
               + "    <host> This is a domain name of the IRC server.\n"
-              + "    <port> This is the port fo the IRC server.\n"
+              + "    <port> This is the port for the IRC server.\n"
               + "           This needs to be between or equal to 1024 and 49151.\n"
               + "    <jks file> This is the encryption key file.\n"
               + "    <jks password> This is the password for the file.");
@@ -122,7 +122,7 @@ public class Client {
       trustManagerFactory.init(keyStore);
 
       // Creates SSLSocketFactories with a secure socket protocol
-      SSLContext sslContext = SSLContext.getInstance("TLS");
+      SSLContext sslContext = SSLContext.getInstance("TLSv1.2");
       TrustManager[] trustManagers = trustManagerFactory.getTrustManagers();
       sslContext.init(keyManagerFactory.getKeyManagers(), trustManagers, null);
 
