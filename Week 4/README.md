@@ -56,11 +56,8 @@ Port and Encrypt arguments required.
 ### Files
 (Note, "//" can be used as a comment in any file and won't be displayed)
 
-**Banner**
-Just enter test into the file, and it will be printed out. View example files to see an example banner.
+**Banner** - Just enter test into the file, and it will be printed out. View example files to see an example banner.
 
-**Logging**
-This fill will be automatically created or appended to.
+**Logging** - This fill will be automatically created or appended to.
 
-**Filter**
-Enter one filtered word per line, words including spaces are invalid.
+**Filter** - Enter one filtered word per line, words including spaces are invalid.
