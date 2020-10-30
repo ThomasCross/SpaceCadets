@@ -1,0 +1,5 @@
+ - - - - - - WELCOME - - - - - -
+ IRC Initialised, you may chat.
+ use /logout to exit.
+ use /help to view other commands.
+ - - - - - - - - - - - - - - - -
