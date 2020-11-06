@@ -122,7 +122,7 @@ public class Client {
       trustManagerFactory.init(keyStore);
 
       // Creates SSLSocketFactories with a secure socket protocol
-      SSLContext sslContext = SSLContext.getInstance("TLSv1.2");
+      SSLContext sslContext = SSLContext.getInstance("SSLv3");
       TrustManager[] trustManagers = trustManagerFactory.getTrustManagers();
       sslContext.init(keyManagerFactory.getKeyManagers(), trustManagers, null);
 

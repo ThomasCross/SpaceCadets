@@ -26,6 +26,7 @@ public class Server {
 
     // Stores argument settings
     StringBuilder banner = null;
+    String bannerOut = null;
     String[] encrypt = null;
     String logging = null;
     ArrayList<String> filter = null;
@@ -146,7 +147,10 @@ public class Server {
     if (encrypt == null) {
       argumentError("Argument Error, missing encryption entry see --help.");
     }
-    new Server(port, banner.toString(), encrypt, logging, filter); // Starts server
+    if(banner != null){
+      bannerOut = banner.toString();
+    }
+    new Server(port, bannerOut, encrypt, logging, filter); // Starts server
   }
 
   /**
@@ -192,7 +196,8 @@ public class Server {
       trustManagerFactory.init(keyStore);
 
       // Creates SSLSocketFactories with a secure socket protocol
-      SSLContext sslContext = SSLContext.getInstance("TLSv1.2");
+      // Note, use TLSv1.2 not TLS (Daniel's advice)
+      SSLContext sslContext = SSLContext.getInstance("SSLv3");
       TrustManager[] trustManagers = trustManagerFactory.getTrustManagers();
       sslContext.init(keyManagerFactory.getKeyManagers(), trustManagers, null);
 
