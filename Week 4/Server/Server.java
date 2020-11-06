@@ -197,7 +197,7 @@ public class Server {
 
       // Creates SSLSocketFactories with a secure socket protocol
       // Note, use TLSv1.2 not TLS (Daniel's advice)
-      SSLContext sslContext = SSLContext.getInstance("SSLv3");
+      SSLContext sslContext = SSLContext.getInstance("TLSv1.2");
       TrustManager[] trustManagers = trustManagerFactory.getTrustManagers();
       sslContext.init(keyManagerFactory.getKeyManagers(), trustManagers, null);
 
